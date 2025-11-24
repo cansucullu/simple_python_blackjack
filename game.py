@@ -28,3 +28,29 @@ def draw_card(deck):
 #c, d = draw_card(d)
 #print(c)
 #print(len(d))
+
+def calculate_points(hand):
+    """ Calculate points of the given hand
+    To-Do: At the moment it uses A as 11. Fix this to include 1 or 11.
+    """
+    points = 0
+    for card in hand:
+        if card[1:] in ["A"]:
+            points += 11  # To-Do: Fix this logic later to include A=1
+        elif card[1:] in ["J", "Q", "K"]:
+            points += 10
+        else:
+            points += int(card[1:])
+    return points
+
+def check_blackjack(hand):
+    """ Check if hand is A + J, K, Q """
+    return True
+
+def check_busted(hand):
+    """ Check if a hand is > 21 """
+    return True
+
+#hand = ["♣5", "♣Q"]
+#points = calculate_points(hand)
+#print(points)
