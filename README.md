@@ -36,6 +36,10 @@ Python terminal based Blackjack game under 1 hour.
 * Player (human) interaction
 * Dealer AI
 
+### Features left to implement in the future
+* At the moment, the app uses 1 deck of cards. In the future make it
+flexible.
+
 ### UX and Design
 * This is a terminal based game, we won't use fancy graphics
 * Print statements are fine
