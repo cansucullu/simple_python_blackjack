@@ -82,6 +82,10 @@ def calculate_totals(hand):
         totals.append(points_without_aces + 44)
     return totals
 
+def get_eligible_totals(totals):
+    """ Return totals that are not busted """
+    return [total for total in totals if total <= 21]
+
 def check_blackjack(hand):
     """ Check if hand is A + J, K, Q """
     return True
@@ -137,7 +141,31 @@ def main():
     print(f"Hello {decision}")
 
     # Step 4: Make the computer play
+ 
+    # if max eligible totals < 17 then:
+    #   computer draws
+    # if 17 =< max eligible totals =< 21 then:
+    #   computer stands
+    # if all totals > 21 then:
+    #   computer loses the game
+
+    computer_active = True
+    while computer_active:
+        print(f"Computer's Hand: {computer_hand}")
+        computer_totals = calculate_totals(computer_hand)
+        computer_eligible_totals = get_eligible_totals(computer_totals)
+        if len(computer_eligible_totals) == 0:
+            computer_active = False
+            print("Computer has busted. You win the game!")
+        elif max(computer_eligible_totals) >= 17:
+            computer_active = False
+            print(f"Computer stands with {max(computer_eligible_totals)}.")
+        else:
+            card, deck = draw_card(deck)
+            computer_hand.append(card)
+            print(f"Computer draws {card}")
 
     # Step 5: Find out who wins
+    
 
 main()
