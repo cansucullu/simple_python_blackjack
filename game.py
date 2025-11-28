@@ -23,25 +23,64 @@ def draw_card(deck):
     deck.pop()
     return (card, deck)
 
-#d = create_deck()
-#d = shuffle_deck(d)
-#c, d = draw_card(d)
-#print(c)
-#print(len(d))
-
-def calculate_points(hand):
+def calculate_totals(hand):
     """ Calculate points of the given hand
-    To-Do: At the moment it uses A as 11. Fix this to include 1 or 11.
+    Input: hand (array)
+    Return: totals (array)
     """
-    points = 0
+    totals = []
+    points_without_aces = 0
+    aces_count = 0
     for card in hand:
         if card[1:] in ["A"]:
-            points += 11  # To-Do: Fix this logic later to include A=1
+            aces_count += 1
         elif card[1:] in ["J", "Q", "K"]:
-            points += 10
+            points_without_aces += 10
         else:
-            points += int(card[1:])
-    return points
+            points_without_aces += int(card[1:])
+    
+    # Deal with As
+    # total: total without Ace
+    # if 1 A then:
+    #  total_1 = total + 1
+    #  total_2 = total + 11
+    # if 2 As then:
+    #  total_1 = total + 2
+    #  total_2 = total + 12
+    #  total_3 = total + 22
+    # if 3 As then:
+    #  total_1 = total + 3
+    #  total_2 = total + 13
+    #  total_3 = total + 23
+    #  total_4 = total + 33
+    # if 4 As then:
+    #  total_1 = total + 4
+    #  total_2 = total + 14
+    #  total_3 = total + 24
+    #  total_4 = total + 34
+    #  total_5 = total + 44
+
+    if aces_count == 0:
+        totals.append(points_without_aces)
+    elif aces_count == 1:
+        totals.append(points_without_aces + 1)
+        totals.append(points_without_aces + 11)
+    elif aces_count == 2:
+        totals.append(points_without_aces + 2)
+        totals.append(points_without_aces + 12)
+        totals.append(points_without_aces + 22)
+    elif aces_count == 3:
+        totals.append(points_without_aces + 3)
+        totals.append(points_without_aces + 13)
+        totals.append(points_without_aces + 23)
+        totals.append(points_without_aces + 33)
+    elif aces_count == 4:
+        totals.append(points_without_aces + 4)
+        totals.append(points_without_aces + 14)
+        totals.append(points_without_aces + 24)
+        totals.append(points_without_aces + 34)
+        totals.append(points_without_aces + 44)
+    return totals
 
 def check_blackjack(hand):
     """ Check if hand is A + J, K, Q """
@@ -51,6 +90,31 @@ def check_busted(hand):
     """ Check if a hand is > 21 """
     return True
 
-#hand = ["♣5", "♣Q"]
-#points = calculate_points(hand)
-#print(points)
+def main():
+    # Step 1: Initialize deck
+    deck = create_deck()
+    deck = shuffle_deck(deck)
+
+    # Step 2: Initialize hands
+    player_hand = []
+    computer_hand = []
+
+    for i in range(2):
+        card, deck = draw_card(deck)
+        player_hand.append(card)
+
+    for i in range(2):
+        card, deck = draw_card(deck)
+        computer_hand.append(card)
+    
+    print(f"Player's Hand: {player_hand}. Totals: {calculate_totals(player_hand)}")
+    print(f"Computer's Hand: {computer_hand[0]}, ??")
+
+    # Step 3: Let the user play
+    
+    # Step 4: Make the computer play
+
+    # Step 5: Find out who wins
+
+main()
+
