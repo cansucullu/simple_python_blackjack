@@ -138,6 +138,7 @@ def main():
         if check_busted(player_hand):
             user_turn = False
             print("Player has busted. You lose the game!")
+            return "lose"
     print(f"Hello {decision}")
 
     # Step 4: Make the computer play
@@ -157,6 +158,7 @@ def main():
         if len(computer_eligible_totals) == 0:
             computer_active = False
             print("Computer has busted. You win the game!")
+            return "win"
         elif max(computer_eligible_totals) >= 17:
             computer_active = False
             print(f"Computer stands with {max(computer_eligible_totals)}.")
@@ -166,6 +168,22 @@ def main():
             print(f"Computer draws {card}")
 
     # Step 5: Find out who wins
-    
+    player_totals = calculate_totals(player_hand)
+    player_eligible_totals = get_eligible_totals(player_totals)
+    computer_totals = calculate_totals(computer_hand)
+    computer_eligible_totals = get_eligible_totals(computer_totals)
 
-main()
+    if max(player_eligible_totals) > max(computer_eligible_totals):
+        print("You win!")
+        return "win"
+    elif max(player_eligible_totals) < max(computer_eligible_totals):
+        print("You lose!")
+        return "lose"
+    elif max(player_eligible_totals) == max(computer_eligible_totals):
+        print("It's a tie.")
+        return "tie"
+    else:
+        raise Exception("Invalid condition!")
+
+result = main()
+print(result)
