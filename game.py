@@ -38,7 +38,7 @@ def calculate_totals(hand):
             points_without_aces += 10
         else:
             points_without_aces += int(card[1:])
-    
+
     # Deal with As
     # total: total without Ace
     # if 1 A then:
@@ -88,7 +88,12 @@ def check_blackjack(hand):
 
 def check_busted(hand):
     """ Check if a hand is > 21 """
-    return True
+    totals = calculate_totals(hand)
+    busted_count = 0
+    for total in totals:
+        if total > 21:
+            busted_count += 1
+    return busted_count == len(totals)
 
 def main():
     # Step 1: Initialize deck
@@ -106,15 +111,33 @@ def main():
     for i in range(2):
         card, deck = draw_card(deck)
         computer_hand.append(card)
-    
+
     print(f"Player's Hand: {player_hand}. Totals: {calculate_totals(player_hand)}")
     print(f"Computer's Hand: {computer_hand[0]}, ??")
 
     # Step 3: Let the user play
-    
+    user_turn = True
+    while user_turn:
+        # Handle user choices
+        decision = input("Your turn. (H)it or (S)tand?")
+        if decision == "h":
+            card, deck = draw_card(deck)
+            player_hand.append(card)
+            print(f"Player's Hand: {player_hand}. Totals: {calculate_totals(player_hand)}")
+        elif decision == "s":
+            user_turn = False
+            print("Player stands. It's now Computer's turn.")
+        else:
+            print("Invalid choice. Select (h) or (s).")
+
+        # Check if the game is over
+        if check_busted(player_hand):
+            user_turn = False
+            print("Player has busted. You lose the game!")
+    print(f"Hello {decision}")
+
     # Step 4: Make the computer play
 
     # Step 5: Find out who wins
 
 main()
-
